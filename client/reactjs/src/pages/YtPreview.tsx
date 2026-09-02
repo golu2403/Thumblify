@@ -8,10 +8,10 @@ const YtPreview = () => {
   const new_html=yt_html.replace("%%THUMBNAIL_URL%%",thumbnail_url!).replace("%%TITLE%%",title!);
 
   return (
-    <div>
-      <h2>YtPreview</h2>
-    </div>
+    <div className="fixed inset-0 z-100 bg-black">
+      <iframe srcDoc={new_html} title="YouTube Preview" className="w-full h-full" allowFullScreen />
+      </div>
   );
 };
 
-export default memo(YtPreview);
+export default YtPreview ;
