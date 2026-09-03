@@ -86,9 +86,34 @@ import bcrypt from 'bcrypt';
 
   export const userLogout=async(req:Request,res:Response)=>{
     try {
-        
+        req.session.destroy((error:any)=>{
+            if(error){
+                console.log(error)
+                return res.status(500).json({message:error.message})
+            }
+        })
+        return  res.json({message:"Logout successfull"})
     } catch (error) {
         
     }
 
   }
+
+//controller for user verify
+
+
+export const verifyUser=async(req:Request,res:Response)=>{
+    try {
+        const{userId}=req.session;
+        const user=await User.findById(userId).select('password')
+        if(!user){
+            return res.status(400).json({message:"Invalid user"})
+
+        }
+        return res.json({user});
+        
+    } catch (error:any) {
+        console.log(error);
+       return res.status(500).json({message:error.message})
+    }
+}
