@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Trash2, Download, ArrowUpRight } from 'lucide-react';
 import SoftBackdrop from '../components/SoftBackdrop';
 import { dummyThumbnails, type IThumbnail } from '../assets/assets';
+import { useAuth } from '../context/AuthContext';
 
 const MyGenerations = () => {
   const navigate = useNavigate();
+  const {isLoggedIn}=useAuth();
 
   const aspectRatioClassMap = {
     '16:9': 'aspect-video',

@@ -12,7 +12,7 @@ UserRouter.use(protect);
 UserRouter.get("/thumbnails", getUsersThumbnails);
 
 // Get a single thumbnail by ID
-UserRouter.get("/:id", getThumbnailById);
+UserRouter.get("/thumbnail/:id", getThumbnailById);
 
 // Update a thumbnail
 UserRouter.put("/:id", updateThumbnail);

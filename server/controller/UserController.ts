@@ -29,16 +29,35 @@ export const getThumbnailById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const { userId } = req.session;
 
-        // Find thumbnail and verify ownership
-        const thumbnail = await Thumbnail.findOne({ _id: id, userId });
+        console.log("================================");
+        console.log("Thumbnail ID:", id);
+        console.log("Session User ID:", userId);
+
+        // First find only by ID
+        const thumbnail = await Thumbnail.findById(id);
+
+        console.log("Thumbnail found:", thumbnail);
 
         if (!thumbnail) {
-            return res.status(404).json({ message: "Thumbnail not found or unauthorized" });
+            return res.status(404).json({
+                message: "Thumbnail ID not found"
+            });
+        }
+
+        console.log("Thumbnail User ID:", thumbnail.userId);
+
+        // Check ownership
+        if (thumbnail.userId !== userId) {
+            return res.status(403).json({
+                message: "You don't own this thumbnail"
+            });
         }
 
         res.json({ thumbnail });
+
     } catch (error) {
         console.error("Error fetching thumbnail:", error);
+
         res.status(500).json({
             message: "Failed to fetch thumbnail",
             error: error instanceof Error ? error.message : "Unknown error",

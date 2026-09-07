@@ -49,7 +49,7 @@ app.use('/api/auth',AuthRouter);
 app.use('/api/user',UserRouter)
 app.use("/api/thumbnail",ThumbnailRouter);
 
-app.use("/api/user", UserRouter);
+// app.use("/api/user", UserRouter);
 
 
 
