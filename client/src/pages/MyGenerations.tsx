@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Trash2, Download, ArrowUpRight } from 'lucide-react';
 import SoftBackdrop from '../components/SoftBackdrop';
-import { dummyThumbnails, type IThumbnail } from '../assets/assets';
+import { type IThumbnail } from '../assets/assets';
 import { useAuth } from '../context/AuthContext';
 import api from '../config/api';
 import toast from 'react-hot-toast';
@@ -55,7 +55,7 @@ const MyGenerations = () => {
 
   useEffect(() => {
     fetchThumbnails();
-  },[])
+  },[isLoggedIn])
 
 
 
