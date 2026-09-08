@@ -4,6 +4,8 @@ import { Trash2, Download, ArrowUpRight } from 'lucide-react';
 import SoftBackdrop from '../components/SoftBackdrop';
 import { dummyThumbnails, type IThumbnail } from '../assets/assets';
 import { useAuth } from '../context/AuthContext';
+import api from '../config/api';
+import toast from 'react-hot-toast';
 
 const MyGenerations = () => {
   const navigate = useNavigate();
@@ -19,9 +21,17 @@ const MyGenerations = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchThumbnails = async () => {
-    setLoading(true);
-    setThumbnails(dummyThumbnails as unknown as IThumbnail[]);
-    setLoading(false);
+     try {
+      setLoading(true);
+      const {data}=await api.get('/api/user/thumbnails')
+      setThumbnails(data.thumbnails ||[])
+     } catch (error:any) {
+      console.log(error);
+      toast .error(error?.response?.data?.message || error.message)
+     }
+     finally{
+      setLoading(false);
+     }
   }
 
   const handleDownload=async (imageUrl: string) => {
@@ -29,7 +39,14 @@ const MyGenerations = () => {
   }
 
   const handleDelete=async (id: string) => {
-    console.log(`Deleting thumbnail with id: ${id}`);
+    try {
+      const {data}=await api.delete(`/api/thumbnail/delete/${id}`)
+      toast.success(data.message)
+      setThumbnails(thumbnails.filter((t)=>t._id!==id))
+    } catch (error:any) {
+      console.log(error);
+      toast.error(error?.respone?.data?.message||error.message)
+    }
   }
 
   const handleThumbnailClick = (id: string) => {
